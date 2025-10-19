@@ -1,1 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Thư chúc mừng 20/10 💌</title>
+<style>
+/* ==== Nền và màu ==== */
+:root {
+  --pink: #ff8abf;
+  --soft: #ffd6e8;
+  --rose: #ff4f9c;
+  --light: #fff0f8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'Poppins',sans-serif;}
+body{
+  background:linear-gradient(180deg,#ffe4ec,#ffd9ef,#fff0f6);
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ==== Nền hoạt ảnh ==== */
+.background span{
+  position:absolute;
+  font-size:40px;
+  animation:float 8s linear infinite;
+  opacity:0;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) scale(0.6);opacity:0;}
+  20%{opacity:1;}
+  80%{opacity:1;}
+  100%{transform:translateY(-10vh) scale(1);opacity:0;}
+}
+
+/* ==== Lá thư ==== */
+.envelope {
+  position:relative;
+  width:320px;height:200px;
+  background:var(--soft);
+  border:2px solid #ffc5dc;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(255,105,180,0.3);
+  perspective:1000px;
+  cursor:pointer;
+  transition:transform .5s ease;
+  transform-style:preserve-3d;
+  z-index:5;
+  animation:bob 3s ease-in-out infinite;
+}
+@keyframes bob{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+.flap{
+  position:absolute;
+  width:100%;height:100%;
+  background:var(--pink);
+  clip-path:polygon(0 0,100% 0,50% 60%);
+  transform-origin:top;
+  border-radius:10px;
+  transition:transform 1s ease;
+  backface-visibility:hidden;
+}
+.body{
+  position:absolute;
+  inset:0;
+  background:var(--light);
+  border-radius:10px;
+  opacity:0;
+  transition:opacity 1s ease .4s;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  color:var(--rose);
+}
+.envelope.open .flap{transform:rotateX(180deg);}
+.envelope.open .body{opacity:1;}
+
+.envelope button{
+  position:absolute;
+  bottom:-70px;left:50%;
+  transform:translateX(-50%);
+  background:var(--rose);
+  border:none;color:white;
+  font-weight:600;
+  padding:10px 20px;border-radius:30px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  cursor:pointer;
+  transition:.3s;
+}
+.envelope button:hover{background:#ff3689;transform:translateX(-50%) scale(1.05);}
+
+/* ==== Tim bay khi mở ==== */
+.heart{
+  position:absolute;
+  font-size:20px;
+  color:#ff5fa8;
+  animation:fly 3s ease-in infinite;
+  opacity:0;
+}
+@keyframes fly{
+  0%{transform:translateY(0) scale(1);opacity:1;}
+  100%{transform:translateY(-100px) scale(1.5);opacity:0;}
+}
+
+/* ==== Thiệp sau khi mở ==== */
+.card{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity 1.5s ease;
+  pointer-events:none;
+}
+.show-card .card{opacity:1;pointer-events:auto;}
+
+.card-content{
+  width:90%;
+  max-width:960px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(6px);
+  border-radius:20px;
+  box-shadow:0 12px 40px rgba(0,0,0,0.15);
+  padding:24px;
+  text-align:center;
+  animation:pop 1s ease forwards;
+}
+@keyframes pop{
+  from{transform:scale(0.9);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+.card h1{
+  font-size:clamp(28px,4vw,44px);
+  color:var(--rose);
+}
+.card p{
+  color:#6b3b4b;
+  margin-top:10px;
+  font-size:16px;
+}
+.bear{font-size:120px;margin-top:20px;animation:floaty 3s ease-in-out infinite;}
+@keyframes floaty{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-12px);}
+}
+.flowers{font-size:60px;animation:sway 4s ease-in-out infinite;}
+@keyframes sway{
+  0%,100%{transform:rotate(-3deg);}
+  50%{transform:rotate(3deg);}
+}
+</style>
+</head>
+<body>
+<div class="background"></div>
+
+<!-- ✉️ Lá thư -->
+<div class="envelope" id="envelope">
+  <div class="flap"></div>
+  <div class="body">
+    <h2>💌 Gửi đến chị em 💌</h2>
+    <p>Chúc chị em có ngày 20/10 thật ý nghĩa,<br>luôn xinh đẹp và rạng rỡ như những đóa hoa 🌸</p>
+  </div>
+  <button id="openBtn">Mở thư 💖</button>
+</div>
+
+<!-- 🌸 Thiệp phía sau -->
+<div class="card" id="card">
+  <div class="card-content">
+    <h1>🌷 Chúc mừng 20/10 — Ngày của chị em 🌷</h1>
+    <p>Chúc bạn luôn vui tươi, tự tin, hạnh phúc và được yêu thương mỗi ngày! 💕</p>
+    <div class="flowers">🌸🌺🌼🌸🌺</div>
+    <div class="bear">🧸</div>
+  </div>
+</div>
+
+<script>
+/* 🌸 Cánh hoa và nền động */
+const icons=["🌸","🌷","🧸","💖","🌹"];
+const bg=document.querySelector(".background");
+for(let i=0;i<25;i++){
+  const s=document.createElement("span");
+  s.textContent=icons[Math.floor(Math.random()*icons.length)];
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=6+Math.random()*6+"s";
+  s.style.fontSize=25+Math.random()*25+"px";
+  s.style.opacity=0.6+Math.random()*0.4;
+  bg.appendChild(s);
+}
+
+/* 💌 Mở thư */
+const envelope=document.getElementById("envelope");
+const openBtn=document.getElementById("openBtn");
+const card=document.getElementById("card");
+
+openBtn.addEventListener("click",()=>{
+  envelope.classList.add("open");
+  openBtn.style.display="none";
+  // tạo tim bay
+  for(let i=0;i<15;i++)createHeart();
+  setTimeout(()=>{
+    envelope.style.display="none";
+    document.body.classList.add("show-card");
+  },2000);
+});
+
+/* ❤️ Tạo tim bay */
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.textContent="💖";
+  h.style.left=(50+Math.random()*80-40)+"%";
+  h.style.bottom="0";
+  h.style.animationDelay=Math.random()*1+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),3000);
+}
+</script>
+</body>
+</html>
 
